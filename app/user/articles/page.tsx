@@ -10,6 +10,14 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { 
+  Pagination, 
+  PaginationContent, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationPrevious, 
+  PaginationNext, 
+} from "@/components/ui/pagination";
 
 export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState("Select category");
@@ -86,14 +94,32 @@ export default function ArticlesPage() {
               />
             ))}
           </div>
-          
-          <div className="flex justify-center mt-8 space-x-2 py-10">
-            <Button variant="outline">{"<"}</Button>
-            <Button variant="default">1</Button>
-            <Button variant="outline">2</Button>
-            <Button variant="outline">3</Button>
-            <Button variant="outline">{">"}</Button>
-          </div>
+          {/* Pagination */}
+          <Pagination className="flex justify-center mt-8 py-10">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#">
+                  Previous
+                </PaginationPrevious>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#">
+                  Next
+                </PaginationNext>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </Layout>
