@@ -5,7 +5,7 @@ export default function Header({ variant }: { variant?: string }) {
     <header
       className={
         variant === "article"
-          ? "w-full bg-white shadow-sm px-4 py-3 fixed top-0 left-0 z-20 flex items-center justify-between min-h-[69px]"
+          ? "w-full bg-white shadow-sm px-8 py-6 fixed top-0 left-0 z-20 flex items-center justify-between min-h-[69px]"
           : "absolute top-0 left-0 w-full z-20 flex items-center justify-between px-8 py-6 bg-transparent max-h-[69px]"
       }
     >
@@ -39,7 +39,7 @@ export default function Header({ variant }: { variant?: string }) {
       </div>
       <div className="flex items-center gap-2">
         <Image
-          src="/avatar.jpg"
+          src="/avatar.svg"
           alt="User Avatar"
           width={36}
           height={36}
