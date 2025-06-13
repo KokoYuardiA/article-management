@@ -24,7 +24,7 @@ export const ArticleSearchBar = ({ onSearch }: Props) => {
       </span>
       <Input
         placeholder="Search articles"
-        className="bg-white max-w-md h-10 rounded-xl pl-10 pr-4 text-base font-normal"
+        className="bg-white max-w-md h-10 rounded-b-md pl-10 pr-4 text-base font-normal"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
