@@ -30,7 +30,7 @@ export default function AdminSidebar() {
           <span>Category</span>
         </Link>
         <Button
-          className="bg-blue-600 justify-start ml-2 w-full hover:bg-blue-500"
+          className="bg-blue-600 justify-start w-full hover:bg-blue-500"
         >
           <LogOutIcon size={20} />
           Logout
