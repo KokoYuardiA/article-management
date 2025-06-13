@@ -1,5 +1,7 @@
 'use client';
 
+import { registerUser } from "@/services/auth";
+import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -20,13 +22,13 @@ import clsx from "clsx";
 const registerSchema = z.object({
   username: z.string().min(1, { message: 'Username field cannot be empty' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
-  role: z.enum(["user", "admin"], { required_error: "Role is required" }),
+  role: z.enum(["User", "Admin"], { required_error: "Role is required" }),
 });
 type RegisterData = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<"user" | "admin" | "">("");
+  const [role, setRole] = useState<"User" | "Admin" | "">("");
 
   const {
     register,
@@ -37,14 +39,26 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSelectRole = (value: "user" | "admin") => {
+  const onSelectRole = (value: "User" | "Admin") => {
     setRole(value);
     setValue("role", value, { shouldValidate: true });
   };
 
-  const onSubmit = (data: RegisterData) => {
-    console.log('Register data:', data);
-    // TODO: panggil API register
+  const router = useRouter();
+
+  const onSubmit = async (data: RegisterData) => {
+    try {
+      await registerUser({
+        username: data.username,
+        password: data.password,
+        role: data.role === "Admin" ? "Admin" : "User",
+      });
+      alert("Register success! Silakan login.");
+      // Redirect ke halaman list artikel setelah register sukses
+      router.push("/");
+    } catch (err: any) {
+      alert(err.message || "Register gagal");
+    }
   };
 
   return (
@@ -95,7 +109,7 @@ export default function RegisterPage() {
                     "focus:outline-none focus:ring-2 focus:ring-blue-500"
                   )}
                 >
-                  {role ? (role === "user" ? "User" : "Admin") : "Select Role"}
+                  {role ? (role === "User" ? "User" : "Admin") : "Select Role"}
                   <svg className="ml-2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -103,13 +117,13 @@ export default function RegisterPage() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-full p-0">
                 <DropdownMenuItem
-                  onSelect={() => onSelectRole("user")}
+                  onSelect={() => onSelectRole("User")}
                   className="px-3 py-2 text-sm cursor-pointer focus:bg-blue-50"
                 >
                   User
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onSelect={() => onSelectRole("admin")}
+                  onSelect={() => onSelectRole("Admin")}
                   className="px-3 py-2 text-sm cursor-pointer focus:bg-blue-50"
                 >
                   Admin
@@ -121,7 +135,6 @@ export default function RegisterPage() {
               <p className="text-sm text-red-500 mt-1">{errors.role.message}</p>
             )}
           </div>
-
           <Button type="submit" className="w-full mt-4 bg-blue-600">Register</Button>
         </form>
 

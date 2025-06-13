@@ -1,4 +1,6 @@
 'use client';
+
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from 'next/image';
@@ -14,6 +16,13 @@ export default function AdminSidebar() {
         ? "bg-blue-500 text-white font-base text-[16px]"
         : "text-white hover:bg-white/10"
     }`;
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
 
   return (
     <aside className="bg-blue-600 text-white min-h-screen w-1/7 p-4 sticky top-0 h-screen">
@@ -31,6 +40,7 @@ export default function AdminSidebar() {
         </Link>
         <Button
           className="bg-blue-600 justify-start w-full hover:bg-blue-500"
+          onClick={handleLogout}
         >
           <LogOutIcon size={20} />
           Logout
