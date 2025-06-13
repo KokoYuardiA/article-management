@@ -36,7 +36,6 @@ export default function UserProfilePage() {
               Back to home
             </Button>
           </div>
-          
         </div>
       </main>
     </Layout>  
