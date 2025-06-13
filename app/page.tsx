@@ -5,6 +5,14 @@ import { ArticleSearchBar } from "@/components/ArticleSearchBar";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
+import { 
+  Pagination, 
+  PaginationContent, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationPrevious, 
+  PaginationNext, 
+} from "@/components/ui/pagination";
 
 export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -38,7 +46,7 @@ export default function ArticlesPage() {
             <p className="text-base md:text-2xl opacity-90 mb-4 md:mb-8">Your daily dose of design insights!</p>
             <div className="flex flex-col md:flex-row w-full max-w-2xl gap-3 bg-blue-500 p-2 rounded-2xl shadow-lg">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="flex items-center justify-between bg-white text-black rounded-lg shadow-none border-none h-10 px-4 w-full md:w-60 text-base font-normal min-h-[40px]">
+                <SelectTrigger className="flex items-center justify-between bg-white text-black rounded-lg shadow-none border-none h-10 px-4 w-full md:w-60 text-base font-normal">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -72,13 +80,31 @@ export default function ArticlesPage() {
             ))}
           </div>
           
-          <div className="flex justify-center mt-8 space-x-2 py-10">
-            <Button variant="outline">{"<"}</Button>
-            <Button variant="default">1</Button>
-            <Button variant="outline">2</Button>
-            <Button variant="outline">3</Button>
-            <Button variant="outline">{">"}</Button>
-          </div>
+          <Pagination className="flex justify-center mt-8 py-10">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#">
+                  Previous
+                </PaginationPrevious>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#">
+                  Next
+                </PaginationNext>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </Layout>

@@ -1,5 +1,6 @@
 'use client';
 
+import { loginUser, getProfile } from "@/services/auth";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -9,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   username: z.string().min(3, { message: 'Please enter your username' }),
@@ -19,6 +21,7 @@ type LoginData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -27,9 +30,22 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginData) => {
-    console.log('Login data:', data);
-    // TODO: Call login API here
+  const onSubmit = async (data: LoginData) => {
+    try {
+      const result = await loginUser({
+        username: data.username,
+        password: data.password,
+      });
+      localStorage.setItem("token", result.token);
+
+      // Ambil profile untuk mendapatkan role
+      const profile = await getProfile(result.token);
+      localStorage.setItem("role", profile.role);
+
+      router.push("/");
+    } catch (err: any) {
+      alert(err.message || "Login gagal");
+    }
   };
 
   return (

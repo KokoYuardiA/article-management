@@ -1,6 +1,34 @@
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { LogOutIcon, UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Header({ variant }: { variant?: string }) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
+
   return (
     <header
       className={
@@ -37,23 +65,45 @@ export default function Header({ variant }: { variant?: string }) {
           </>
         )}
       </div>
-      <div className="flex items-center gap-2">
-        <Image
-          src="/avatar.svg"
-          alt="User Avatar"
-          width={36}
-          height={36}
-          className="rounded-full"
-        />
-        <span
-          className={
-            variant === "article"
-              ? "text-sm font-medium text-slate-900 underline max-[375px]:hidden"
-              : "text-sm font-medium text-white drop-shadow underline max-[375px]:hidden"
-          }
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="flex items-center gap-2 focus:outline-none"
+          onClick={() => setOpen((v) => !v)}
         >
-          James Dean
-        </span>
+          <Image
+            src="/avatar.svg"
+            alt="User Avatar"
+            width={36}
+            height={36}
+            className="rounded-full"
+          />
+          <span
+            className={
+              variant === "article"
+                ? "text-sm font-medium text-slate-900 underline max-[375px]:hidden"
+                : "text-sm font-medium text-white drop-shadow underline max-[375px]:hidden"
+            }
+          >
+            James Dean
+          </span>
+        </button>
+        {open && (
+          <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border z-30 py-2 animate-fade-in">
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-slate-700"
+              onClick={() => setOpen(false)}
+            >
+              <UserIcon size={18} /> My Account
+            </Link>
+            <button
+              className="flex items-center gap-2 px-4 py-2 text-red-500 hover:bg-gray-100 w-full"
+              onClick={handleLogout}
+            >
+              <LogOutIcon size={18} /> Log out
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
