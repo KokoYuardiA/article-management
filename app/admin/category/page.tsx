@@ -46,7 +46,12 @@ export default function AdminArticlesPage() {
               </section>
               <div className="px-6 flex flex-wrap justify-between gap-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <ArticleSearchBar onSearch={(val) => console.log(val)} />
+                  <ArticleSearchBar
+                    onSearch={(value) => {
+                        console.log(value);
+                    }}
+                    placeholder="Search Category"
+                  />
                 </div>
                 <Button className="bg-blue-600 text-white">
                   <PlusIcon size={16} /> Add Articles

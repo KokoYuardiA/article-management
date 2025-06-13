@@ -50,7 +50,12 @@ export default function AdminArticlesPage() {
                       <SelectItem value="Design">Design</SelectItem>
                     </SelectContent>
                   </Select>
-                  <ArticleSearchBar onSearch={(val) => console.log(val)} />
+                  <ArticleSearchBar
+                    onSearch={(value) => {
+                      console.log(value);
+                    }}
+                    placeholder="Search by title"
+                  />
                 </div>
                 <Button className="bg-blue-600 text-white">
                   <PlusIcon size={16} /> Add Articles
