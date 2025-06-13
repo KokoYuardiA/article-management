@@ -16,7 +16,7 @@ export default function ArticleTable() {
     <div className="overflow-x-auto">
       <Table>
         <TableHeader className="bg-gray-100">
-          <TableRow className="text-muted-foreground">
+          <TableRow>
             <TableHead className="text-center w-1/5">Thumbnails</TableHead>
             <TableHead className="text-center w-1/5">Title</TableHead>
             <TableHead className="text-center w-1/5">Category</TableHead>
@@ -24,7 +24,7 @@ export default function ArticleTable() {
             <TableHead className="text-center w-1/5">Action</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="text-muted-foreground">
           {dummyArticles.map((item) => (
             <TableRow key={item.id} className="hover:bg-gray-50">
               <TableCell className="text-center align-middle w-1/5">

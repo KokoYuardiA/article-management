@@ -3,16 +3,11 @@ import Layout from "@/components/Layout";
 import { ArticleCard } from "@/components/ArticleCard";
 import { ArticleSearchBar } from "@/components/ArticleSearchBar";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 
 export default function ArticlesPage() {
-  const [selectedCategory, setSelectedCategory] = useState("Select category");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const categories = ["Design", "UI/UX"];
 
   const dummyArticles = Array.from({ length: 9 }).map((_, i) => ({
@@ -42,29 +37,19 @@ export default function ArticlesPage() {
             </h1>
             <p className="text-base md:text-2xl opacity-90 mb-4 md:mb-8">Your daily dose of design insights!</p>
             <div className="flex flex-col md:flex-row w-full max-w-2xl gap-3 bg-blue-500 p-2 rounded-2xl shadow-lg">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    className="flex items-center justify-between bg-white text-black rounded-lg shadow-none border-none h-10 px-4 w-full md:w-60 text-base font-normal"
-                    variant="outline"
-                  >
-                    {selectedCategory}
-                    <svg className="ml-2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setSelectedCategory("Select category")}>
-                    Select category
-                  </DropdownMenuItem>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="flex items-center justify-between bg-white text-black rounded-lg shadow-none border-none h-10 px-4 w-full md:w-60 text-base font-normal min-h-[40px]">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Select category</SelectItem>
                   {categories.map((cat) => (
-                    <DropdownMenuItem key={cat} onClick={() => setSelectedCategory(cat)}>
+                    <SelectItem key={cat} value={cat}>
                       {cat}
-                    </DropdownMenuItem>
+                    </SelectItem>
                   ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </SelectContent>
+              </Select>
               <div className="flex-1 text-black">
                 <ArticleSearchBar onSearch={(val) => console.log(val)} />
               </div>

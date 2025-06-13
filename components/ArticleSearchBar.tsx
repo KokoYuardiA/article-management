@@ -7,9 +7,10 @@ import Image from "next/image";
 
 interface Props {
   onSearch: (value: string) => void;
+  placeholder?: string;
 }
 
-export const ArticleSearchBar = ({ onSearch }: Props) => {
+export const ArticleSearchBar = ({ onSearch, placeholder = "Search articles" }: Props) => {
   const [search, setSearch] = useState("");
   const debounced = useDebounce(search, 400);
 
@@ -23,7 +24,7 @@ export const ArticleSearchBar = ({ onSearch }: Props) => {
         <Image src="/search.svg" alt="Search" width={20} height={20} />
       </span>
       <Input
-        placeholder="Search articles"
+        placeholder={placeholder}
         className="bg-white max-w-md h-10 rounded-b-md pl-10 pr-4 text-base font-normal"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
